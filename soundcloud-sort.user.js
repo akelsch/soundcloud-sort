@@ -17,6 +17,7 @@
     let sortByLikesButton = createSortButton("likes", compareTracksByLikes);
     let sortByPlaysButton = createSortButton("plays", compareTracksByPlays);
 
+    // Add the new sort buttons to the page alongside the "Station", "Follow" and "Share" buttons
     let pageButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
     pageButtons.prepend(sortByLikesButton, sortByPlaysButton);
 
