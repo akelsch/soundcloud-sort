@@ -11,9 +11,13 @@
 (function() {
     'use strict';
 
+    function removeThousandsSeperator(numberText) {
+        return numberText.replace(/,/g, "");
+    }
+
     function getTrackPlays(soundListItem) {
         let plays = soundListItem.querySelector(".soundStats > li").getAttribute("title");
-        return parseInt(plays.replace(/,/g, ""));
+        return parseInt(removeThousandsSeperator(plays));
     }
 
     function sortTracks() {
@@ -24,11 +28,17 @@
         tracks.forEach(track => parent.appendChild(track));
     }
 
-    let sortButton = document.createElement("button");
-    sortButton.className = "sc-button sc-button-medium sc-button-responsive";
-    sortButton.textContent = "Sort by views"
-    sortButton.onclick = sortTracks;
+    let sortByPlaysButton = document.createElement("button");
+    sortByPlaysButton.className = "sc-button sc-button-medium sc-button-responsive";
+    sortByPlaysButton.textContent = "Sort by plays"
+    sortByPlaysButton.onclick = sortTracks;
 
-    let siteButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
-    siteButtons.prepend(sortButton);
+    let sortByLikesButton = document.createElement("button");
+    sortByLikesButton.className = "sc-button sc-button-medium sc-button-responsive";
+    sortByLikesButton.textContent = "Sort by likes"
+    sortByLikesButton.onclick = sortTracks;
+
+    let buttons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
+    buttons.prepend(sortByPlaysButton);
+    buttons.prepend(sortByLikesButton);
 })();
