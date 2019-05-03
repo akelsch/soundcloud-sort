@@ -70,7 +70,7 @@
     }
 
     /**
-     * Removes commas from a string, e.g. "11,266,303" -> ""11266303".
+     * Removes commas from a string, e.g. "11,266,303" -> "11266303".
      */
     function removeThousandsSeperator(str) {
         return str.replace(/,/g, "");
