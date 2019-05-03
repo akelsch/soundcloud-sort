@@ -20,23 +20,25 @@
         return parseInt(removeThousandsSeperator(plays));
     }
 
-    function sortTracks() {
+    const compareTracksByPlays = (t1, t2) => getTrackPlays(t1) > getTrackPlays(t2) ? -1 : 1;
+
+    function sortTracks(compareFunction) {
         let parent = document.querySelector(".soundList > ul");
         let tracks = Array.from(document.querySelectorAll(".soundList > ul > li"));
 
-        tracks.sort((t1, t2) => getTrackPlays(t1) > getTrackPlays(t2) ? -1 : 1);
+        tracks.sort(compareFunction);
         tracks.forEach(track => parent.appendChild(track));
     }
 
     let sortByPlaysButton = document.createElement("button");
     sortByPlaysButton.className = "sc-button sc-button-medium sc-button-responsive";
     sortByPlaysButton.textContent = "Sort by plays"
-    sortByPlaysButton.onclick = sortTracks;
+    sortByPlaysButton.onclick = () => sortTracks(compareTracksByPlays);
 
     let sortByLikesButton = document.createElement("button");
     sortByLikesButton.className = "sc-button sc-button-medium sc-button-responsive";
     sortByLikesButton.textContent = "Sort by likes"
-    sortByLikesButton.onclick = sortTracks;
+    sortByLikesButton.onclick = () => sortTracks(compareTracksByPlays);
 
     let buttons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
     buttons.prepend(sortByPlaysButton);
