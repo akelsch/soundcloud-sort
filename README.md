@@ -2,7 +2,7 @@
 
 Tampermonkey userscript adding sort functionality to SoundCloud
 
-![Usage][usage.gif]
+![Usage](usage.gif)
 
 ## Installation
 
