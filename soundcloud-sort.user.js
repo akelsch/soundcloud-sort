@@ -8,22 +8,39 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
-    function removeThousandsSeperator(numberText) {
-        return numberText.replace(/,/g, "");
+    const compareTracksByLikes = (t1, t2) => getTrackLikes(t1) > getTrackLikes(t2) ? -1 : 1;
+    const compareTracksByPlays = (t1, t2) => getTrackPlays(t1) > getTrackPlays(t2) ? -1 : 1;
+
+    let sortByLikesButton = createSortButton("likes", compareTracksByLikes);
+    let sortByPlaysButton = createSortButton("plays", compareTracksByPlays);
+
+    let pageButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
+    pageButtons.prepend(sortByLikesButton, sortByPlaysButton);
+
+    /**
+     * Creates a "Sort by x" button.
+     */
+    function createSortButton(name, compareFunction) {
+        let button = document.createElement("button");
+        button.className = "sc-button sc-button-medium sc-button-responsive";
+        button.textContent = "Sort by " + name;
+        button.onclick = () => sortTracks(compareFunction);
+
+        return button;
     }
 
     /**
-     * Although plays are displayed formatted, e.g. "11.2M", their exact
-     * integer value is given in the title attribute, e.g. "11,266,303 plays".
+     * Sorts the tracks using a compare function, e.g. by likes or plays (see below).
      */
-    function getTrackPlays(soundListItem) {
-        let rawPlays = soundListItem.querySelector(".soundStats > li").getAttribute("title");
-        let parsedPlays = parseInt(removeThousandsSeperator(rawPlays));
+    function sortTracks(compareFunction) {
+        let parent = document.querySelector(".soundList > ul");
+        let tracks = Array.from(document.querySelectorAll(".soundList > ul > li"));
 
-        return parsedPlays;
+        tracks.sort(compareFunction);
+        tracks.forEach(track => parent.appendChild(track));
     }
 
     /**
@@ -40,29 +57,21 @@
         return parsedLikes;
     }
 
-    const compareTracksByPlays = (t1, t2) => getTrackPlays(t1) > getTrackPlays(t2) ? -1 : 1;
-    const compareTracksByLikes = (t1, t2) => getTrackLikes(t1) > getTrackLikes(t2) ? -1 : 1;
+    /**
+     * Although plays are displayed formatted, e.g. "11.2M", their exact
+     * integer value is given in the title attribute, e.g. "11,266,303 plays".
+     */
+    function getTrackPlays(soundListItem) {
+        let rawPlays = soundListItem.querySelector(".soundStats > li").getAttribute("title");
+        let parsedPlays = parseInt(removeThousandsSeperator(rawPlays));
 
-    function sortTracks(compareFunction) {
-        let parent = document.querySelector(".soundList > ul");
-        let tracks = Array.from(document.querySelectorAll(".soundList > ul > li"));
-
-        tracks.sort(compareFunction);
-        tracks.forEach(track => parent.appendChild(track));
+        return parsedPlays;
     }
 
-    function createSortButton(name, compareFunction) {
-        let button = document.createElement("button");
-        button.className = "sc-button sc-button-medium sc-button-responsive";
-        button.textContent = "Sort by " + name;
-        button.onclick = () => sortTracks(compareFunction);
-
-        return button;
+    /**
+     * Removes commas from a string, e.g. "11,266,303" -> ""11266303".
+     */
+    function removeThousandsSeperator(numberText) {
+        return numberText.replace(/,/g, "");
     }
-
-    let sortByPlaysButton = createSortButton("plays", compareTracksByPlays);
-    let sortByLikesButton = createSortButton("likes", compareTracksByLikes);
-
-    let pageButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
-    pageButtons.prepend(sortByLikesButton, sortByPlaysButton);
 })();
