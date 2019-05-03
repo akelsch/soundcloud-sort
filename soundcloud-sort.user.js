@@ -51,17 +51,18 @@
         tracks.forEach(track => parent.appendChild(track));
     }
 
-    let sortByPlaysButton = document.createElement("button");
-    sortByPlaysButton.className = "sc-button sc-button-medium sc-button-responsive";
-    sortByPlaysButton.textContent = "Sort by plays"
-    sortByPlaysButton.onclick = () => sortTracks(compareTracksByPlays);
+    function createSortButton(name, compareFunction) {
+        let button = document.createElement("button");
+        button.className = "sc-button sc-button-medium sc-button-responsive";
+        button.textContent = "Sort by " + name;
+        button.onclick = () => sortTracks(compareFunction);
 
-    let sortByLikesButton = document.createElement("button");
-    sortByLikesButton.className = "sc-button sc-button-medium sc-button-responsive";
-    sortByLikesButton.textContent = "Sort by likes"
-    sortByLikesButton.onclick = () => sortTracks(compareTracksByLikes);
+        return button;
+    }
 
-    let buttons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
-    buttons.prepend(sortByPlaysButton);
-    buttons.prepend(sortByLikesButton);
+    let sortByPlaysButton = createSortButton("plays", compareTracksByPlays);
+    let sortByLikesButton = createSortButton("likes", compareTracksByLikes);
+
+    let pageButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
+    pageButtons.prepend(sortByLikesButton, sortByPlaysButton);
 })();
