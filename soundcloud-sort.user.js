@@ -47,8 +47,8 @@
      * There are no exact values for likes available so we have to convert
      * the formatted strings like "119K", "41.1K" and "9,766" manually.
      */
-    function getTrackLikes(soundListItem) {
-        let rawLikes = soundListItem.querySelector(".sc-button-like").textContent;
+    function getTrackLikes(trackElement) {
+        let rawLikes = trackElement.querySelector(".sc-button-like").textContent;
         let parsedLikes = parseFloat(removeThousandsSeperator(rawLikes));
 
         if (rawLikes.endsWith("K"))
@@ -61,8 +61,8 @@
      * Although plays are displayed formatted, e.g. "11.2M", their exact
      * integer value is given in the title attribute, e.g. "11,266,303 plays".
      */
-    function getTrackPlays(soundListItem) {
-        let rawPlays = soundListItem.querySelector(".soundStats > li").getAttribute("title");
+    function getTrackPlays(trackElement) {
+        let rawPlays = trackElement.querySelector(".soundStats > li").getAttribute("title");
         let parsedPlays = parseInt(removeThousandsSeperator(rawPlays));
 
         return parsedPlays;
@@ -71,7 +71,7 @@
     /**
      * Removes commas from a string, e.g. "11,266,303" -> ""11266303".
      */
-    function removeThousandsSeperator(numberText) {
-        return numberText.replace(/,/g, "");
+    function removeThousandsSeperator(str) {
+        return str.replace(/,/g, "");
     }
 })();
