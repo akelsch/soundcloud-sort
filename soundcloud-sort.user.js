@@ -52,8 +52,11 @@
         let rawLikes = trackElement.querySelector(".sc-button-like").textContent;
         let parsedLikes = parseFloat(removeThousandsSeperator(rawLikes));
 
-        if (rawLikes.endsWith("K"))
-            parsedLikes *= 1000;
+        if (rawLikes.endsWith("K")) {
+            parsedLikes *= Math.pow(10, 3);
+        } else if (rawLikes.endsWith("M")) {
+            parsedLikes *= Math.pow(10, 6);
+        }
 
         return parsedLikes;
     }
