@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         soundcloud-sort
 // @namespace    https://github.com/akelsch
-// @version      0.1
+// @version      1.0.0
 // @description  Enables sorting tracks by likes/plays on an artists tracks page
 // @author       Arthur Kelsch
 // @match        https://soundcloud.com/*/tracks
