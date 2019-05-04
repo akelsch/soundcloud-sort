@@ -45,8 +45,8 @@
     }
 
     /**
-     * There are no exact values for likes available so we have to convert
-     * the formatted strings like "119K", "41.1K" and "9,766" manually.
+     * Gets the number of likes of a given track as a formatted string and converts
+     * it into a number, e.g. "1.08M", "119K", "41.1K" and "9,766".
      */
     function getTrackLikes(trackElement) {
         let rawLikes = trackElement.querySelector(".sc-button-like").textContent;
@@ -62,8 +62,8 @@
     }
 
     /**
-     * Although plays are displayed formatted, e.g. "11.2M", their exact
-     * integer value is given in the title attribute, e.g. "11,266,303 plays".
+     * Gets the number of plays of a given track and converts it into a number,
+     * e.g. "11,266,303 plays" (displayed as "11.2M").
      */
     function getTrackPlays(trackElement) {
         let rawPlays = trackElement.querySelector(".soundStats > li").getAttribute("title");
