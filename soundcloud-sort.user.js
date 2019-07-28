@@ -48,8 +48,8 @@ function createSortButton(buttonText, compareFunction) {
  */
 function sortTracks(compareFunction) {
     let parent = document.querySelector(".soundList > ul");
-    let tracks = Array.from(document.querySelectorAll(".soundList > ul > li"));
 
+    let tracks = Array.from(parent.children);
     tracks.sort(compareFunction);
     tracks.forEach(track => parent.appendChild(track));
 }
