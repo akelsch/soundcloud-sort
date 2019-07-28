@@ -10,12 +10,6 @@
 
 "use strict";
 
-const compareTracksByLikes = (t1, t2) => getTrackLikes(t1) > getTrackLikes(t2) ? -1 : 1;
-const compareTracksByPlays = (t1, t2) => getTrackPlays(t1) > getTrackPlays(t2) ? -1 : 1;
-
-let sortByLikesButton = createSortButton("likes", compareTracksByLikes);
-let sortByPlaysButton = createSortButton("plays", compareTracksByPlays);
-
 appendSortButtons();
 
 /**
@@ -29,6 +23,8 @@ function appendSortButtons() {
     let soundcloudButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
 
     if (soundcloudButtons) {
+        let sortByLikesButton = createSortButton("likes", (t1, t2) => getTrackLikes(t2) - getTrackLikes(t1));
+        let sortByPlaysButton = createSortButton("plays", (t1, t2) => getTrackPlays(t2) - getTrackPlays(t1));
         soundcloudButtons.prepend(sortByLikesButton, sortByPlaysButton);
     } else {
         setTimeout(appendSortButtons, 200);
