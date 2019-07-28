@@ -16,24 +16,39 @@ const compareTracksByPlays = (t1, t2) => getTrackPlays(t1) > getTrackPlays(t2) ?
 let sortByLikesButton = createSortButton("likes", compareTracksByLikes);
 let sortByPlaysButton = createSortButton("plays", compareTracksByPlays);
 
-// Add the new sort buttons to the page alongside the "Station", "Follow" and "Share" buttons
-let pageButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
-pageButtons.prepend(sortByLikesButton, sortByPlaysButton);
+appendSortButtons();
+
+/**
+ * Adds sort buttons to the page alongside the "Station", "Follow" and
+ * "Share" buttons after SoundClouds buttons are loaded.
+ *
+ * We have to wait to ensure compatibility with Greasemonkey and
+ * Violentmonkey. Reference: waitForKeyElements.js
+ */
+function appendSortButtons() {
+    let soundcloudButtons = document.querySelector(".userInfoBar__buttons > .sc-button-group");
+
+    if (soundcloudButtons) {
+        soundcloudButtons.prepend(sortByLikesButton, sortByPlaysButton);
+    } else {
+        setTimeout(appendSortButtons, 200);
+    }
+}
 
 /**
  * Creates a "Sort by x" button.
  */
-function createSortButton(name, compareFunction) {
+function createSortButton(buttonText, compareFunction) {
     let button = document.createElement("button");
     button.className = "sc-button sc-button-medium sc-button-responsive";
-    button.textContent = "Sort by " + name;
+    button.textContent = "Sort by " + buttonText;
     button.onclick = () => sortTracks(compareFunction);
 
     return button;
 }
 
 /**
- * Sorts the tracks using a compare function, e.g. by likes or plays (see below).
+ * Sorts tracks using a compare function, e.g. by likes or plays (see below).
  */
 function sortTracks(compareFunction) {
     let parent = document.querySelector(".soundList > ul");
